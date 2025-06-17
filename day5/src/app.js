@@ -1,97 +1,59 @@
 const express = require("express");
 
-const server = express();
+const { adminAuth, userAuth } = require("./middlewares/auth");
 
-// server.use all http methods are matched by this use
+const app = express();
+app.use("/admin", adminAuth);
 
-// server.use("/home", (req, res) => {
-//   res.send("this is home route ");
-// });
-// server.use("/test", (req, res) => {
-//   res.send("this is test route");
-// });
-// server.use("/", (req, res) => {
-//   res.send("this is wild request match ");
+// app.get("/home", (req, res) => {
+//   res.send("home");
 // });
 
-// http status codes
+// middlewares
 
-// 200 ok
-// 404 error
-// 201 created
-
-// route/ request handler
-
-// query parameters and path parameters
-// /search?query=books&sort=price
-
-// path parameters. /:id/:username/:password
-
-// server.get(
-//   "/home",
-//   (req, res, next) => {
-//     // console.log(req.query);
-//     console.log(req.params.username);
-//     res.status(200).json({
-//       message: "this is get home route",
-//     });
-//   },
-//   (req, res) => {
-//     res.status(200).json({
-//       message: "2nd route handler ",
-//     });
-//   },
-//   (req, res) => {
-//     res.status(200).json({
-//       message: "3rd route handler ",
-//     });
+// app.use("/admin", (req, res, next) => {
+//   console.log("admin middleware is hit");
+//   const token = "pujan";
+//   const isAdmin = token === "token";
+//   if (!isAdmin) {
+//     res.status(401).send("unauthorized access , you are not admin");
+//   } else {
+//     next();
 //   }
-// );
-
-// server.post("/home", (req, res) => {
-//   res.status(200).json({
-//     message: "this is post home route",
-//   });
 // });
 
-// /abc /ac.
+app.get("/admin/getUserData", (req, res) => {
+  // check if the request is authorized (ie admin )
+  // logic of checking if the request is authorized
 
-// server.get(/^\/ab+c/, (req, res) => {
-//   res.send("this is abc route");
-// });
+  // strict equality ===
+  // const token = "pujan";
+  // const isAdmin = token === "token";
 
-// server.get("/home", (req, res) => {
-//   console.log("this is home route");
-// });
+  // if (isAdmin) {
+  //   res.send("getting user data");
+  // } else {
+  //   res.status(401).send("unauthorized to access this route");
+  // }
 
-//
-
-// server.get([rh1,rh2],rh3)
-
-// server.get([
-//   "/home",
-//   (req, res, next) => {
-//     // res.send("route 1");
-//     next();
-//   },
-//   (req, res, next) => {
-//     // res.send("route 2");
-//     next();
-//   },
-//   (req, res) => {
-//     // route handler
-//     res.send("route 3");
-//   },
-// ]);
-
-server.get("/home", (req, res, next) => {
-  //   res.send("home");
-  next();
+  res.send("user data retrived successfully");
 });
-server.post("/home", (req, res) => {
-  res.send("home2");
+app.delete("/admin/deleteUser", (req, res) => {
+  // const token = "pujan";
+  // const isAdmin = token === "token";
+
+  // if (isAdmin) {
+  //   res.send("delete user successfully");
+  // } else {
+  //   res.status(401).send("unauthorized to access this delte route");
+  // }
+  res.send("user deleted successfully");
 });
 
-server.listen(1234, (err) => {
-  console.log("server is runnning on http://localhost:1234");
+app.get("/user", userAuth, (req, res) => {
+  res.send("this is user route");
+});
+
+app.listen(1234, (err) => {
+  console.log("app is running on http://localhost:1234");
 });
