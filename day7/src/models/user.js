@@ -1,13 +1,19 @@
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
+  // schema level validations
   firstName: {
     type: String,
+    minlength: [3],
   },
   lastName: {
     type: String,
   },
-  age: {
-    type: Number,
+  password: {
+    type: String,
+  },
+  email: {
+    type: String,
+    unique: true,
   },
 });
 // Whenever we are referencing the model ,the name starts with capital letters.
