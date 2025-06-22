@@ -1,11 +1,12 @@
 const express = require("express");
 const connectDb = require("./config/db");
 const { signUp, getAllUsers, updateUser } = require("./controllers/auth");
+const auth = require("./middlewares/auth");
 
 const app = express();
 app.use(express.json());
 
-app.post("/signUp", signUp);
+app.post("/signUp", auth, signUp);
 app.get("/getAllUsers", getAllUsers);
 app.put("/updateUser", updateUser);
 

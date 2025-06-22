@@ -1,5 +1,7 @@
 const User = require("../models/user");
 
+// const jwt = require("jsonwebtoken");
+
 // http methods to update put--for updating all documents ,patch-- for updating specific fields
 
 const signUp = async (req, res) => {
@@ -20,12 +22,15 @@ const signUp = async (req, res) => {
       user.password = password;
       user.email = email;
 
+      // const token = jwt.sign(user, "jwtsecret", { expiresIn: "1h" });
+
       await user.save();
 
-      res.status(201).json({
-        success: true,
-        data: user,
-      });
+      // return res.status(201).json({
+      //   success: true,
+      //   data: user,
+      //   // token: token,
+      // });
     }
   } catch (err) {
     console.log(`something went wrong,${err.message}`);
@@ -35,6 +40,9 @@ const signUp = async (req, res) => {
   // truthy vs falsy
   //[]
 };
+
+const login = async (req, res) => {};
+
 const getAllUsers = async (req, res) => {
   try {
     const user = await User.find({});

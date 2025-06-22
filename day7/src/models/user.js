@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     minlength: [3],
+
   },
   lastName: {
     type: String,
@@ -16,6 +17,8 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
 });
+
+// pre 
 // Whenever we are referencing the model ,the name starts with capital letters.
 
 const User = mongoose.model("User", userSchema);
