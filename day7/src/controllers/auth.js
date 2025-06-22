@@ -74,4 +74,5 @@ const updateUser = async (req, res) => {
     res.status(500).send;
   }
 };
+
 module.exports = { signUp, getAllUsers, updateUser };
