@@ -1,20 +1,31 @@
 const express = require("express");
+const userAuth = require("./middlewares/auth.js");
 const connectDb = require("./config/db");
-const { signUp, getAllUsers, updateUser } = require("./controllers/auth");
-const auth = require("./middlewares/auth");
+const {
+  signUp,
+  getAllUsers,
+  updateUser,
+  login,
+  profile,
+} = require("./controllers/auth");
+
+const cookieParser = require("cookie-parser");
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
-app.post("/signUp", auth, signUp);
+app.post("/signUp", signUp);
 app.get("/getAllUsers", getAllUsers);
 app.put("/updateUser", updateUser);
+app.post("/login", login);
+app.get("/profile", userAuth, profile);
 
 connectDb()
   .then(() => {
     console.log("database connected successfully");
-    app.listen(1234, () => {
-      console.log("server is running on http://localhost:1234");
+    app.listen(2221, () => {
+      console.log("server is running on http://localhost:2221");
     });
   })
   .catch((err) => {
